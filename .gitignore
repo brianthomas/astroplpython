@@ -1,5 +1,6 @@
 .project
 .pydevproject
 build
+dist
 __pycache__
 MANIFEST
