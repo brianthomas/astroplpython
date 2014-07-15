@@ -22,20 +22,32 @@ class x_t(object):
         self._t = v;
     
     @property
-    def x(self):
+    def value(self):
         ''' return array of measurements X '''
-        return self._x
+        return self._value
     
-    @x.setter
-    def x(self, v):
-        self._x = v
+    @value.setter
+    def value(self, v):
+        self._value = v
     
     def __str__( self ):
-        return "x_t => x:"+str(self._x)+" t:"+str(self._t)
+        return "x_t => x:"+str(self._value)+" t:"+str(self._t)
     
     def __init__(self, measurement, time):
         ''' Constructor '''
-        self._x = measurement
+        self._value = measurement
         self._t = time
     
-        
+''' 
+   Module method
+'''
+def strToXTArray (strarr):
+    x_t_list = []
+    for v in strarr:
+        v = v.replace("(","")
+        v = v.replace(")","")
+        vals = v.split(",")
+        x = vals[0]
+        t = vals[1]
+        x_t_list.append(x_t(x,t))
+    return x_t_list

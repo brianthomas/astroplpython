@@ -4,11 +4,11 @@
 -- we use python 3
 create LANGUAGE plpython3u;
 
--- create measurement p(f)
+-- create measurement type P(f)
 create type p_f as (power float8, frequency float8);
 
--- create measurement x(t)
-create type x_t as (x float8, time float8);
+-- create measurement type X(t)
+create type x_t as (value float8, time float8);
 
 -- next two functions support creation of an
 -- aggregate function to gather X(t) measurements
@@ -32,19 +32,8 @@ create or replace FUNCTION calc_lsp (data x_t[])
   RETURNS setof p_f
 AS $$
 
-  from astroplpython.data.Timeseries import x_t
+  from astroplpython.data.Timeseries import x_t, strToXTArray
   from astroplpython.proc.LSPeriodogram import LSPeriodogram
-
-  def strToXTArray (strarr):
-    x_t_list = []
-    for v in strarr:
-      v = v.replace("(","")
-      v = v.replace(")","")
-      vals = v.split(",")
-      x = vals[0]
-      t = vals[1]
-      x_t_list.append(x_t(x,t))
-    return x_t_list
 
   lsp = LSPeriodogram(strToXTArray(data))
   pgram = lsp.pgram()
