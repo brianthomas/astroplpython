@@ -13,12 +13,12 @@ class x_t(object):
     A measurement of X(t).
     '''
     @property
-    def t(self):
+    def time(self):
         ''' return array of times '''
         return self._t
     
-    @t.setter
-    def t(self, v):
+    @time.setter
+    def time(self, v):
         self._t = v;
     
     @property
