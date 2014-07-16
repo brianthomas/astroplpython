@@ -21,7 +21,7 @@ class LSPeriodogram(object):
         '''
         p_f_list = []
         for x_t in self._timeseries:
-            p_f_list.append(p_f(x_t.x, x_t.t))
+            p_f_list.append(p_f(x_t.value, x_t.time))
             
         return p_f_list
     

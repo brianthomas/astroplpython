@@ -7,7 +7,7 @@ Created on Jul 11, 2014
 @author: thomas
 '''
 
-class x_t(object):
+class x_t (object):
         
     '''
     A measurement of X(t).
@@ -15,11 +15,11 @@ class x_t(object):
     @property
     def time(self):
         ''' return array of times '''
-        return self._t
+        return self._time
     
     @time.setter
     def time(self, v):
-        self._t = v;
+        self._time = v;
     
     @property
     def value(self):
@@ -31,23 +31,25 @@ class x_t(object):
         self._value = v
     
     def __str__( self ):
-        return "x_t => x:"+str(self._value)+" t:"+str(self._t)
+        return "x_time => x:"+str(self._value)+" t:"+str(self._time)
     
     def __init__(self, measurement, time):
         ''' Constructor '''
         self._value = measurement
-        self._t = time
+        self._time = time
     
 ''' 
    Module method
 '''
 def strToXTArray (strarr):
-    x_t_list = []
+    ''' Convert an array of string representation to x_t[] '''
+    x_time_list = []
     for v in strarr:
         v = v.replace("(","")
         v = v.replace(")","")
         vals = v.split(",")
         x = vals[0]
         t = vals[1]
-        x_t_list.append(x_t(x,t))
-    return x_t_list
+        x_time_list.append(x_t(x,t))
+        
+    return x_time_list

@@ -12,7 +12,7 @@ setup (
     version='0.1',
 
     keywords = 'plpython astronomy',
-    long_description=open('README.md').read(),
+#    long_description=open('README.md').read(),
 
     maintainer='Brian Thomas',
     maintainer_email='galactictaco@gmail.com',
@@ -23,11 +23,14 @@ setup (
 
     package_data = {
         # If any package contains *.txt or *.md files, include them:
-        '': ['*.txt', '*.md'],
+        '': ['*.txt', 'README.md'],
         # And include any *.sql files found in the sql package, too:
         'astroplpython': ['*.sql'],
     },
 
-    test_suite = "astroplpython", 
+    #test_loader = 'unittest:TestLoader', 
+    #test_suite = 'astroplpython.proc.test.test_LSPeriodogram',
+    test_suite = 'astroplpython.proc.test',
+
 )
 
