@@ -1,8 +1,21 @@
 
-try:
-    from setuptools import setup, find_packages
-except ImportError:
-    from distutils.core import setup, find_packages 
+from setuptools import setup, find_packages, Command 
+from setuptools.command.test import test as TestCommand
+
+class PyTest(Command):
+
+    user_options = []
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        import sys,subprocess
+        errno = subprocess.call ([sys.executable, 'run_tests.py'])
+        raise SystemExit(errno)
+
 
 setup (
 
@@ -28,9 +41,10 @@ setup (
         'astroplpython': ['*.sql'],
     },
 
+    cmdclass = {'test': PyTest},
     #test_loader = 'unittest:TestLoader', 
     #test_suite = 'astroplpython.proc.test.test_LSPeriodogram',
-    test_suite = 'astroplpython.proc.test',
+    #test_suite = 'astroplpython.proc.test.test_LSPeriodogram',
 
 )
 
