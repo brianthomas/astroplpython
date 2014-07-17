@@ -2,6 +2,7 @@
 .pydevproject
 *.pyc
 .tox*
+.coverage
 build
 dist
 __pycache__
