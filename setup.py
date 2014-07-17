@@ -1,8 +1,8 @@
 
 from setuptools import setup, find_packages, Command 
 from setuptools.command.test import test as TestCommand
-import os
 
+import os
 class PyTest(Command):
 
     description = "custom test command that uses special run_test.py script built by py.test --genscript"
@@ -48,7 +48,6 @@ setup (
     maintainer='Brian Thomas',
     maintainer_email='galactictaco@gmail.com',
 
-#    packages=['astroplpython/*', 'tests', 'sql'],
     packages=find_packages(),
     license='MIT License',
 
