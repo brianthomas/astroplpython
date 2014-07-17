@@ -60,7 +60,7 @@ setup (
     },
 
     cmdclass = {
-	'clean': CleanCommand,
+	'distclean': CleanCommand,
 	'test': PyTest
     },
 
