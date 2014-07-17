@@ -5,6 +5,7 @@
 .coverage
 build
 dist
+htmlcov
 __pycache__
 MANIFEST
 *.egg-info
