@@ -1,8 +1,11 @@
 
 from setuptools import setup, find_packages, Command 
 from setuptools.command.test import test as TestCommand
+import os
 
 class PyTest(Command):
+
+    description = "custom test command that uses special run_test.py script built by py.test --genscript"
 
     user_options = []
     def initialize_options(self):
@@ -15,6 +18,21 @@ class PyTest(Command):
         import sys,subprocess
         errno = subprocess.call ([sys.executable, 'bin/run_tests.py'])
         raise SystemExit(errno)
+
+class CleanCommand(Command):
+
+    description = "custom clean command that forcefully removes dist/build directories"
+
+    user_options = []
+    def initialize_options(self):
+        self.cwd = None
+
+    def finalize_options(self):
+        self.cwd = os.getcwd()
+
+    def run(self):
+        assert os.getcwd() == self.cwd, 'Must be in package root: %s' % self.cwd
+        os.system('rm -rf ./build ./dist *.egg-info')
 
 
 setup (
@@ -41,10 +59,10 @@ setup (
         'astroplpython': ['*.sql'],
     },
 
-    cmdclass = {'test': PyTest},
-    #test_loader = 'unittest:TestLoader', 
-    #test_suite = 'astroplpython.proc.test.test_LSPeriodogram',
-    #test_suite = 'astroplpython.proc.test.test_LSPeriodogram',
+    cmdclass = {
+	'clean': CleanCommand,
+	'test': PyTest
+    },
 
 )
 
