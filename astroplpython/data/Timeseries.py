@@ -35,21 +35,19 @@ class x_t (object):
     
     def __init__(self, measurement, time):
         ''' Constructor '''
-        self._value = measurement
-        self._time = time
+        self._value = float(measurement) 
+        self._time = float(time) 
     
-''' 
-   Module method
-'''
-def strToXTArray (strarr):
-    ''' Convert an array of string representation to x_t[] '''
-    x_time_list = []
-    for v in strarr:
-        v = v.replace("(","")
-        v = v.replace(")","")
-        vals = v.split(",")
-        x = vals[0]
-        t = vals[1]
-        x_time_list.append(x_t(x,t))
+    @staticmethod
+    def strToXTArray (strarr):
+        ''' Convert an array of string representation to x_t[] '''
+        x_t_list = []
+        for v in strarr:
+            v = v.replace("(","")
+            v = v.replace(")","")
+            vals = v.split(",")
+            x = vals[0]
+            t = vals[1]
+            x_t_list.append(x_t(x,t))
         
-    return x_time_list
+        return x_t_list

@@ -30,7 +30,7 @@ class p_f(object):
     
     def __init__(self, power, frequency):
         ''' Constructor '''
-        self._power = power
-        self._frequency  = frequency
+        self._power = float(power) 
+        self._frequency  = float(frequency) 
         
         
