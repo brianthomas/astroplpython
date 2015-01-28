@@ -1,6 +1,12 @@
 
+
+from os.path import dirname, join
+
 from setuptools import setup, find_packages, Command 
 from setuptools.command.test import test as TestCommand
+
+with open(join(dirname(__file__), 'astroplpython/VERSION'), 'rb') as f:
+	version = f.read().decode('ascii').strip()
 
 import os
 class PyTest(Command):
@@ -40,7 +46,7 @@ setup (
     name='AstroPLPython',
     description='PL/Python package for astronomy',
     url='https://www.github.com/brianthomas/astroplpython',
-    version='0.1',
+    version=version,
 
     keywords = 'plpython astronomy',
 #    long_description=open('README.md').read(),
