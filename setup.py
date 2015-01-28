@@ -11,7 +11,6 @@ with open(join(dirname(__file__), 'astroplpython/VERSION'), 'rb') as f:
 with open(join(dirname(__file__), 'README.md'), 'rb') as f:
 	long_description = f.read().decode('ascii').strip()
 
-
 class CleanCommand(Command):
 
     description = "custom clean command that forcefully removes dist/build directories"
@@ -49,5 +48,8 @@ setup (
 	'distclean': CleanCommand,
     },
 
+    install_requires=[
+        'scipy>=0.15.1',
+    ],
 )
 
