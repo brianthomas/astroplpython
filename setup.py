@@ -2,6 +2,22 @@
 from os.path import dirname, join
 from setuptools import setup, find_packages, Command 
 
+'''
+# Implement setupext.janitor which allows for more flexible
+# and powerful cleaning. Commands include:
+
+setup.py clean --dist
+    Removes directories that the various dist commands produce.
+setup.py clean --egg
+    Removes .egg and .egg-info directories.
+setup.py clean --environment
+    Removes the currently active virtual environment as indicated by the $VIRTUAL_ENV environment variable. The name of the directory can also be specified using the --virtualenv-dir command line option.
+setup.py clean --pycache
+    Recursively removes directories named __pycache__.
+setup.py clean --all
+    Remove all of by-products. This is the same as using --dist --egg --environment --pycache. 
+'''
+
 try:
     from setupext import janitor
     CleanCommand = janitor.CleanCommand
