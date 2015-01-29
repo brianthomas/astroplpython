@@ -36,7 +36,7 @@ setup (
 
     include_package_data=True,
 
-#    setup_requires=['setupext.janitor'],
+    setup_requires=['setupext-janitor'],
     cmdclass = cmd_classes,
 
     install_requires=[
