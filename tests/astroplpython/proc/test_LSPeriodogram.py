@@ -24,6 +24,7 @@ class TestLSPeriodogramTestCase (unittest.TestCase):
         data.append(x_t(0,1))
         data.append(x_t(0,2))
         lsp = LSPeriodogram(data, 1, 1)
+        lsp.debug()
         pgram = lsp.pgram()
         self.assertEqual(3, len(pgram), "Output PGram has correct number of data points")
 
