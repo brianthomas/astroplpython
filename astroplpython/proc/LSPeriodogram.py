@@ -18,14 +18,12 @@ class LSPeriodogram(object):
     '''
     def pgram (self):
             
-        self._x = []
-        self._y = []
-        log = logging.getLogger( "astroplpython.proc" )
+        self._log.debug("pgram() called")
+        
         ''' TODO: calculate the periodogram here..
             for now, we will simply mirror back the 
             timeseries information
         '''
-        log.debug("pgram() called")
         p_f_list = []
         
         'TODO: calculate this value'
@@ -33,15 +31,18 @@ class LSPeriodogram(object):
         'TODO: calculate this value'
         f_high = 10. 
         
-        print("calculate nout")
+        self._log.debug("calculate nout")
         nout = self._f_over * len(self._x)
        
         'calculate a list of frequencies'
-        print("calculate list of freq")
+        self._log.debug("calculate list of freq")
         f = np.linspace(f_low, f_high, nout)
         
+        print ("F:"+str(type(f)))
+        print (" shape:"+str(f.shape))
+        
         'calculate our periodogram'
-        print("calculate periodogram")
+#        print("calculate periodogram")
 #        pgram = sp.lombscargle(self._x, self._y, f)
         
         'convert back to form we may use'
@@ -51,28 +52,35 @@ class LSPeriodogram(object):
             
         return p_f_list
     
+    ''' 
+    Set debugging logging on instance.
+    '''
+    def debug(self):
+        self._log.setLevel( logging.DEBUG )
+        
     def __init__(self, x_t_list, f_high=2, f_over=4):
         '''
         Constructor
         '''
         
-#        import sys
-        
-#        logging.basicConfig( stream=sys.stderr )
-#        log = logging.getLogger( "astroplpython.proc" )
-        
-        logging.error("construct LSPERIODOGRAM")
-        
-        print("construct lsp")
+        # create logger
+        import sys
+        logging.basicConfig( stream=sys.stderr )
+        self._log = logging.getLogger( "astroplpython.proc" )
         
         ' TODO: validate input parameters'
+        
+        ' Set instance variables'
         self._f_high = f_high
         self._f_over = f_over
-        x = []
-        y = []
-        for v in x_t_list:
-            x.append(v.time)
-            y.append(v.value)
+        self._x = []
+        self._y = []
+        
+        #x = []
+        #y = []
+        #for v in x_t_list:
+        #    x.append(v.time)
+        #    y.append(v.value)
             
  #       self._x = np.array(x, dtype=float) 
  #       print ("X size is:"+len(self._x))
