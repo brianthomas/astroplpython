@@ -3,6 +3,7 @@
 *.pyc
 .tox*
 .coverage
+*.egg
 build
 dist
 htmlcov
