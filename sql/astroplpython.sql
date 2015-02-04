@@ -32,10 +32,10 @@ create or replace FUNCTION calc_lsp (data x_t[])
   RETURNS setof p_f
 AS $$
 
-  from astroplpython.data.Timeseries import x_t, strToXTArray
+  from astroplpython.data.Timeseries import x_t
   from astroplpython.proc.LSPeriodogram import LSPeriodogram
 
-  lsp = LSPeriodogram(strToXTArray(data))
+  lsp = LSPeriodogram(x_t.strToXTArray(data))
   pgram = lsp.pgram()
 
   return pgram
