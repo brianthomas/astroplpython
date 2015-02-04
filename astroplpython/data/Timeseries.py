@@ -31,7 +31,7 @@ class x_t (object):
         self._value = v
     
     def __str__( self ):
-        return "x_time => x:"+str(self._value)+" t:"+str(self._time)
+        return "x_t(x:"+str(self._value)+" t:"+str(self._time)+")" 
     
     def __init__(self, measurement, time):
         ''' Constructor '''
