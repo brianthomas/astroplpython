@@ -13,7 +13,7 @@ create type x_t as (value float8, time float8);
 -- next two functions support creation of an
 -- aggregate function to gather X(t) measurements
 -- from a database table.
-create function x_t_accum (t1 x_t[], t2 x_t)
+create or replace function x_t_accum (t1 x_t[], t2 x_t)
 returns x_t[] as
 $$
   select array_append($1, $2)::x_t[];
@@ -35,8 +35,8 @@ AS $$
   from astroplpython.data.Timeseries import x_t
   from astroplpython.proc.LSPeriodogram import LSPeriodogram
 
-  lsp = LSPeriodogram(x_t.strToXTArray(data))
-  pgram = lsp.pgram()
+  # TODO: capture f_low, f_high, f_over parameters
+  pgram = LSPeriodogram.calculate(x_t.strToXTArray(data))
 
   return pgram
 
@@ -46,7 +46,7 @@ $$ LANGUAGE plpython3u IMMUTABLE;
 -- which is more convenient for bulk runs which
 -- insert results from each run on a row in a 
 -- results table
-create function calc_lsp_arr_p_f(in x_t[])
+create or replace function calc_lsp_arr_p_f(in x_t[])
   returns p_f[]
 AS $$
   select array ( select calc_lsp($1) );
