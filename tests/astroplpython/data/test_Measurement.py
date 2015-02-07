@@ -30,8 +30,8 @@ class Test(unittest.TestCase):
             #print (str(x_t_list[i]))
             #print (str(x_t_list[i].value))
             self.assertIsInstance(x_y_list[i], Measurement.x_y, "is class of Measurement.x_y")
-            self.assertEquals(x[i], x_y_list[i].value) #, "x value is correct")
-            self.assertEquals(t[i], x_y_list[i].time, "t value is correct")
+            self.assertEquals(x[i], x_y_list[i].x, "x value is correct")
+            self.assertEquals(t[i], x_y_list[i].y, "y value is correct")
             i += 1
 
 
