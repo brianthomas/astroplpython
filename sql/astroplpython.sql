@@ -59,7 +59,7 @@ $$ language sql immutable;
 -- OTOH, we might use SD, GD arrays to provide
 -- things like f_high, f_over parameters to functions
 --
--- see http://www.postgresql.org/docs/9.2/interactive/plpython-sharing.html
+-- see http://www.postgresql.org/docs/9.3/interactive/plpython-sharing.html
 -- 
 -- which is workable, but 'feels' wrong. Certainly a 
 -- violation of the 'functional' approach we want to take
