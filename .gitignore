@@ -4,6 +4,7 @@
 .tox*
 .coverage
 *.egg
+cover/
 build
 dist
 htmlcov
