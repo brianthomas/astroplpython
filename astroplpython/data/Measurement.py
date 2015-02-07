@@ -37,7 +37,7 @@ class x_y (object):
         return x_y._dbStrToArray(x_y, strarr)
         
     @staticmethod
-    def _dbStrToArray (constructor, strarr):
+    def _dbStrToArray (classToUse, strarr):
         x_y_list = []
         for v in strarr:
             v = v.replace("(","")
@@ -45,6 +45,6 @@ class x_y (object):
             vals = v.split(",")
             x = vals[0]
             y = vals[1]
-            x_y_list.append(constructor(x,y))
+            x_y_list.append(classToUse(x,y))
         
         return x_y_list
