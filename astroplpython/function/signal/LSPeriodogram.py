@@ -5,8 +5,8 @@ Created on Jul 11, 2014
 @author: thomas
 '''
 
-from astroplpython.data.Periodogram import p_f
-from astroplpython.data.Timeseries import x_t
+from astroplpython.data.PowerFrequencyMeasurement import p_f
+from astroplpython.data.TimeMeasurement import x_t
 import scipy.signal as sp 
 import numpy as np
 import logging
@@ -21,12 +21,12 @@ class LSPeriodogram(object):
             
         import sys
         logging.basicConfig( stream=sys.stderr )
-        log = logging.getLogger( "astroplpython.proc" )   
+        log = logging.getLogger( "astroplpython.function" )   
         log.setLevel (logging.WARN)
          
         log.debug("LSPeriodogram.calculate() called")
         
-        ' Set instance variables'
+        'Prepare the data; convert x_t[] to numpy ndarrays for lsp calc'
         x = []
         y = []
         for v in x_t_list:
@@ -36,15 +36,11 @@ class LSPeriodogram(object):
         x_arr = np.asarray(x)
         y_arr = np.asarray(y)
             
-        ''' TODO: calculate the periodogram here..
-            for now, we will simply mirror back the 
-            timeseries information
-        '''
         p_f_list = []
         
-        'TODO: calculate this value'
+        'TODO: calculate this value ??'
         #f_low = 0.01 
-        'TODO: calculate this value'
+        'TODO: calculate this value ??'
         #f_high = 10. 
         
         log.debug("calculate list of frequencies to use")
@@ -53,7 +49,6 @@ class LSPeriodogram(object):
         f_bins = np.linspace(f_low, f_high, num_out)
         
         log.debug("calculate pgram")
-#        print("calculate periodogram")
         pgram = sp.lombscargle(x_arr, y_arr, f_bins)
         
         log.debug("PGRAM type:"+str(type(pgram)))
@@ -62,9 +57,6 @@ class LSPeriodogram(object):
         'convert back to form we may use'
         for i in range (0, num_out): 
             p_f_list.append(p_f(pgram[i],f_bins[i]))
-            
-#        for i in range(0, num_out):
-#            p_f_list.append(p_f(1.0, f_bins[i]))
             
         return p_f_list
     
@@ -82,7 +74,7 @@ class LSPeriodogram(object):
         # create logger
         import sys
         logging.basicConfig( stream=sys.stderr )
-        self._log = logging.getLogger( "astroplpython.proc" )
+        self._log = logging.getLogger( "astroplpython.function" )
         
         ' TODO: validate input parameters'
         

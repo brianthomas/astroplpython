@@ -18,12 +18,12 @@ class TestTimeseries (unittest.TestCase):
 
     def test_strToXTArray (self):
         
-        import astroplpython.data.Timeseries as Timeseries
+        import astroplpython.data.TimeMeasurement as Timeseries
         
         # test data strarr has combination of integer, floats.
         #
         strarr = ['(1,1)', '(2,2.)', '(2.1,3.)', '(2.018,4.)']
-        x_t_list = Timeseries.x_t.strToXTArray(strarr)
+        x_t_list = Timeseries.x_t.dbStrToArray(strarr)
         #print (str(x_t_list))
         
         self.assertEqual(4, len(x_t_list), "list has right number of elements")

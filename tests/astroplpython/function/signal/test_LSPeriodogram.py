@@ -6,8 +6,8 @@ Created on Jul 16, 2014
 import unittest
 import logging
 
-from astroplpython.proc.LSPeriodogram import LSPeriodogram
-from astroplpython.data.Timeseries import x_t
+from astroplpython.function.signal.LSPeriodogram import LSPeriodogram
+from astroplpython.data.TimeMeasurement import x_t
 
 class TestLSPeriodogramTestCase (unittest.TestCase):
 
