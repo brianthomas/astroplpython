@@ -32,11 +32,11 @@ create or replace FUNCTION calc_lsp (data x_t[])
   RETURNS setof p_f
 AS $$
 
-  from astroplpython.data.Timeseries import x_t
-  from astroplpython.proc.LSPeriodogram import LSPeriodogram
+  from astroplpython.data.TimeMeasurement import x_t
+  from astroplpython.function.signal.LSPeriodogram import LSPeriodogram
 
   # TODO: capture f_low, f_high, f_over parameters
-  pgram = LSPeriodogram.calculate(x_t.strToXTArray(data))
+  pgram = LSPeriodogram.calculate(x_t.dbStrToArray(data))
 
   return pgram
 
