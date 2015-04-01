@@ -31,7 +31,7 @@ class TestLSPeriodogramTestCase (unittest.TestCase):
         
         f_low = 0.01
         f_high = 3.0
-        f_over = 30
+        f_bins = 3000
         
         # generates 100 evenly spaced points between 1 and 1000
         time = np.linspace(1, 1000, 100)
@@ -45,16 +45,16 @@ class TestLSPeriodogramTestCase (unittest.TestCase):
             data.append(x_t(mags[i],t)) 
             i = i+1
         
-        p_f_list = LSPeriodogram.calculate(data, f_low, f_high, f_over)
+        p_f_list = LSPeriodogram.calculate(data, f_low, f_high, f_bins)
         
-        # get testable 
+        # get testable array of values
         plist = []
         for pf in p_f_list:
             plist.append(pf.power) 
         
+        # calculate the periodogram, returned as list of p_f 
         pgram = np.asarray(plist)
-            
-        #self.assertEqual((nr_points*f_over), len(pgram), "Output PGram has correct number of data points")
+        self.assertEqual(f_bins, len(pgram), "Output PGram has correct number of data points")
         
         # returns the inverse of the frequency (i.e. the period) of the largest periodogram value
         # generates 1000 frequencies between 0.01 and 1

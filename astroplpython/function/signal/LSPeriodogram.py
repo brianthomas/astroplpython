@@ -17,7 +17,7 @@ class LSPeriodogram(object):
     TWO_PI = np.pi * 2.0
     
     @staticmethod
-    def calculate (x_t_list, f_low = 0.01, f_high = 10.0, f_over = 4):
+    def calculate (x_t_list, f_low = 0.01, f_high = 10.0, f_bins = 1000):
         ''' 
         Lomb Scargle Periodogram implementation using scipy. 
         '''
@@ -48,26 +48,19 @@ class LSPeriodogram(object):
         #f_high = 10. 
         
         log.debug("calculate list of frequencies to use")
-        num_out = len(x_t_list) * f_over
-        log.debug(" Number of frequency bins out:"+str(num_out))
-        freqs = np.linspace(f_low, f_high, num_out)
+        freqs = np.linspace(f_low, f_high, f_bins)
         
         log.debug("Do pgram calculation")
         pgram = sp.lombscargle(t_arr, x_arr, freqs)
+        log.debug("PGRAM shape:"+str(pgram.shape))
         
         max_freq = freqs[np.argmax(pgram)] / np.pi
         log.debug("Max Freq:"+str(max_freq))
                 
         log.debug("convert result to form we may use in db, p_f[]"); 
         p_f_list = []
-        for i in range (0, num_out): 
-#            p_f_list.append(p_f(pgram[i]/LSPeriodogram.TWO_PI,f_bins[i]))
+        for i in range (0, f_bins): 
             p_f_list.append(p_f(pgram[i], freqs[i]))
             
-        # log.debug("PGRAM shape:"+str(pgram.shape))
-        
         return p_f_list
     
-        
-                             
-        
