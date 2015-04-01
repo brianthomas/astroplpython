@@ -23,8 +23,8 @@ class x_y (object):
         ''' return measurement X '''
         return self._x
     
-    def __str__( self ):
-        return "x_t(x:"+str(self._value)+" t:"+str(self._time)+")" 
+    def __str__(self):
+        return "x_t(x:" + str(self._value) + " t:" + str(self._time) + ")" 
     
     def __init__(self, x, y):
         ''' Constructor '''
@@ -40,11 +40,11 @@ class x_y (object):
     def _dbStrToArray (classToUse, strarr):
         x_y_list = []
         for v in strarr:
-            v = v.replace("(","")
-            v = v.replace(")","")
+            v = v.replace("(", "")
+            v = v.replace(")", "")
             vals = v.split(",")
             x = vals[0]
             y = vals[1]
-            x_y_list.append(classToUse(x,y))
+            x_y_list.append(classToUse(x, y))
         
         return x_y_list

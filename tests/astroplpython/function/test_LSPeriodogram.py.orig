@@ -25,7 +25,10 @@ class TestLSPeriodogramTestCase (unittest.TestCase):
 
     def test_other (self):
         
-        log = logging.getLogger( "astroplpython.proc" )
+        
+        logging.basicConfig( stream=sys.stderr )
+        log = logging.getLogger( "astroplpython.function.signal" )
+        log.setLevel (logging.DEBUG)
         
         log.error("TestOther")
         

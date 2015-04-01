@@ -5,11 +5,12 @@ Created on Jul 11, 2014
 @author: thomas
 '''
 
-from astroplpython.data.PowerFrequencyMeasurement import p_f
-from astroplpython.data.TimeMeasurement import x_t
 import logging
-import scipy.signal as sp 
+
+from astroplpython.data.PowerFrequencyMeasurement import p_f
 import numpy as np
+import scipy.signal as sp 
+
 
 class LSPeriodogram(object):
     
@@ -20,47 +21,50 @@ class LSPeriodogram(object):
         ''' 
         Lomb Scargle Periodogram implementation using scipy. 
         '''
-            
-        #import sys
-        #logging.basicConfig( stream=sys.stderr )
-        log = logging.getLogger( "astroplpython.function.signal" )   
-        #log.setLevel (logging.WARN)
+
+        log = logging.getLogger("astroplpython.function.signal")   
          
         log.debug("LSPeriodogram.calculate() called")
         
         log.debug("Prepare the data; convert x_t[] to python.numpy and scale");
         x = []
         t = []
-        for v in x_t_list:
-            x.append(v.time)
-            t.append(v.value)
+        for val in x_t_list:
+            x.append(val.value)
+            t.append(val.time)
             
         # capture values as ndarray and scale
         x_arr = np.asarray(x)
+        
+        # scale the magnitude values
         x_arr = (x_arr-x_arr.mean())/x_arr.std()
         
         # capture times as ndarray 
         t_arr = np.asarray(t)
-            
+ #           
         'TODO: calculate this value ??'
         #f_low = 0.01 
         'TODO: calculate this value ??'
         #f_high = 10. 
         
         log.debug("calculate list of frequencies to use")
-        num_out = f_over * len(x)
+        num_out = len(x_t_list) * f_over
         log.debug(" Number of frequency bins out:"+str(num_out))
-        f_bins = np.linspace(f_low, f_high, num_out)
+        freqs = np.linspace(f_low, f_high, num_out)
         
         log.debug("Do pgram calculation")
-        pgram = sp.lombscargle(x_arr, t_arr, f_bins)
+        pgram = sp.lombscargle(t_arr, x_arr, freqs)
         
+        max_freq = freqs[np.argmax(pgram)] / np.pi
+        log.debug("Max Freq:"+str(max_freq))
+                
         log.debug("convert result to form we may use in db, p_f[]"); 
         p_f_list = []
         for i in range (0, num_out): 
-            p_f_list.append(p_f(pgram[i]/LSPeriodogram.TWO_PI,f_bins[i]))
+#            p_f_list.append(p_f(pgram[i]/LSPeriodogram.TWO_PI,f_bins[i]))
+            p_f_list.append(p_f(pgram[i], freqs[i]))
             
-        #log.debug("PGRAM shape:"+str(pgram.shape))
+        # log.debug("PGRAM shape:"+str(pgram.shape))
         
         return p_f_list
     

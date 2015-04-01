@@ -5,6 +5,7 @@ Created on Jul 11, 2014
 '''
 from astroplpython.data.Measurement import x_y
 
+
 class p_f(x_y):
     ''' 
     An individual measurement of Power P at frequency f; P(f) 
@@ -18,8 +19,8 @@ class p_f(x_y):
     def frequency (self):
         return self.y 
     
-    def __str__( self ):
-        return "p_f(p:"+str(self.power)+" f:"+str(self.frequency)+")" 
+    def __str__(self):
+        return "p_f(p:" + str(self.power) + " f:" + str(self.frequency) + ")" 
     
     def __init__(self, power, frequency):
         ''' Constructor '''

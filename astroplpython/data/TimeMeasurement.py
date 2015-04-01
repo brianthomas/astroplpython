@@ -6,6 +6,7 @@ Created on Jul 11, 2014
 
 from astroplpython.data.Measurement import x_y
 
+
 class x_t (x_y):
         
     '''
@@ -21,8 +22,8 @@ class x_t (x_y):
         ''' return array of measurements X '''
         return self.x 
     
-    def __str__( self ):
-        return "x_t(x:"+str(self.value)+" t:"+str(self.time)+")" 
+    def __str__(self):
+        return "x_t(x:" + str(self.value) + " t:" + str(self.time) + ")" 
     
     def __init__(self, measurement, time):
         ''' Constructor '''
