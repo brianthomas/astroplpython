@@ -1,7 +1,7 @@
 ''' 
 
-Measurement series. A series of X values measured
-for independent variable Y. 
+A Measurement. A measurement having value X 
+when independent variable has value of Y. 
   
 Created on Jul 11, 2014
 
@@ -38,6 +38,9 @@ class x_y (object):
         
     @staticmethod
     def _dbStrToArray (classToUse, strarr):
+        ''' Conversion of a database string representation of 
+            list of measurements to python object list
+        ''' 
         x_y_list = []
         for v in strarr:
             v = v.replace("(", "")
