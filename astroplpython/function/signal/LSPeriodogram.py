@@ -14,8 +14,6 @@ import scipy.signal as sp
 
 class LSPeriodogram(object):
     
-    TWO_PI = np.pi * 2.0
-    
     @staticmethod
     def calculate (x_t_list, f_low = 0.01, f_high = 10.0, f_bins = 1000):
         ''' 
@@ -41,12 +39,7 @@ class LSPeriodogram(object):
         
         # capture times as ndarray 
         t_arr = np.asarray(t)
- #           
-        'TODO: calculate this value ??'
-        #f_low = 0.01 
-        'TODO: calculate this value ??'
-        #f_high = 10. 
-        
+             
         log.debug("calculate list of frequencies to use")
         freqs = np.linspace(f_low, f_high, f_bins)
         
@@ -54,9 +47,6 @@ class LSPeriodogram(object):
         pgram = sp.lombscargle(t_arr, x_arr, freqs)
         log.debug("PGRAM shape:"+str(pgram.shape))
         
-        max_freq = freqs[np.argmax(pgram)] / np.pi
-        log.debug("Max Freq:"+str(max_freq))
-                
         log.debug("convert result to form we may use in db, p_f[]"); 
         p_f_list = []
         for i in range (0, f_bins): 
