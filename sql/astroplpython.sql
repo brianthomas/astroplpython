@@ -29,6 +29,20 @@ CREATE AGGREGATE x_t_accum (x_t)
     initcond = '{}'
 );
 
+create or replace function p_f_accum (t1 p_f[], t2 p_f)
+returns p_f[] as
+$$
+  select array_append($1, $2)::p_f[];
+$$ language SQL immutable;
+
+-- this gets things started for accumulation of p_f[]
+CREATE AGGREGATE p_f_accum (p_f)
+(
+    sfunc = array_append,
+    stype = p_f[],
+    initcond = '{}'
+);
+
 -- the core "final function" which actually does the
 -- calculation of the periodogram 
 create or replace FUNCTION calc_lsp (data x_t[], f_low numeric, f_high numeric, f_bins integer)
@@ -42,7 +56,7 @@ AS $$
   import logging
   import sys
   logging.basicConfig(stream=sys.stderr)
-  logging.getLogger( "astroplpython.function.signal" ).setLevel(logging.DEBUG)
+  logging.getLogger( "astroplpython.function.signal").setLevel(logging.DEBUG)
 
   # calculate based on passed parameters
   pgram = LSPeriodogram.calculate(x_t.dbStrToArray(data), f_low, f_high, f_bins)
@@ -51,14 +65,41 @@ AS $$
 
 $$ LANGUAGE plpython3u IMMUTABLE;
 
--- example sql using these functions:
+
+-- Find the frequency for maximum power in p_f[] list
+create or replace FUNCTION max_frequency (data p_f[])
+  RETURNS setof p_f
+AS $$
+
+  from astroplpython.data.PowerFrequencyMeasurement import p_f
+  from astroplpython.function.statistic.Maximum import Maximum
+
+  # calculate based on passed parameters
+  max_frequency = Maximum.calculate(p_f.dbStrToArray(data))
+
+  # postgres requires return of an 'iterable object' 
+  p_f_list = []
+  p_f_list.append(max_frequency)
+
+  return p_f_list
+
+$$ LANGUAGE plpython3u IMMUTABLE;
+
+--
+-- EXAMPLE sql using these functions:
+--
+
+-- LSP calc
 -- select calc_lsp(x_t_accum((mag,hjd)::x_t), 0.4, 0.6, 100) from test where objid = 1;
 
+-- max frequency calc
+-- select max_frequency (p_f_accum(result.p_f)) from (select calc_lsp(x_t_accum((mag,hjd)::x_t), 0.4, 0.6, 100) as p_f from test where objid = 1) as result;
+
+--
 --
 -- EXPERIMENTAL FUNCTIONS
 -- {try to make it more efficient)
 --
-
 
 -- provides changing setof p_f into p_f[]
 -- which is more convenient for bulk runs which
