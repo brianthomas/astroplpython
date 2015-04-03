@@ -24,7 +24,7 @@ class x_y (object):
         return self._x
     
     def __str__(self):
-        return "x_t(x:" + str(self._value) + " t:" + str(self._time) + ")" 
+        return "x_t(x:" + str(self._x) + " t:" + str(self._y) + ")" 
     
     def __init__(self, x, y):
         ''' Constructor '''
