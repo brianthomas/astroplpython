@@ -102,6 +102,16 @@ $$ LANGUAGE plpython3u IMMUTABLE;
 -- {try to make it more efficient)
 --
 
+-- to try to improve the interface for doing multi-argument
+-- aggregate functions create special type for collecting function
+-- params
+create type lsp_input as (
+   data x_t,
+   f_low numeric,
+   f_high numeric,
+   f_bins integer
+);
+
 -- provides changing setof p_f into p_f[]
 -- which is more convenient for bulk runs which
 -- insert results from each run on a row in a 
@@ -116,23 +126,6 @@ AS $$
     select array ( select calc_lsp(vals, $2, $3, $4) );
   END;
 $$ language sql immutable;
-
-create type lsp_input as (
-   data x_t,
-   f_low numeric,
-   f_high numeric,
-   f_bins integer 
-);
-
--- to try to improve the interface for doing multi-argument
--- aggregate functions create special type for collecting function
--- params
-create type lsp_input as (
-   data x_t,
-   f_low numeric,
-   f_high numeric,
-   f_bins integer
-);
 
 -- next two functions support creation of an
 -- aggregate function to gather lsp_input(s)
