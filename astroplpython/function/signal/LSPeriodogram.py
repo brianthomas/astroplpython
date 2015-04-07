@@ -8,6 +8,7 @@ Created on Jul 11, 2014
 import logging
 
 from astroplpython.data.PowerFrequencyMeasurement import p_f
+from astroplpython.exception.ListException import EmptyListException
 import numpy as np
 import scipy.signal as sp 
 
@@ -23,6 +24,8 @@ class LSPeriodogram(object):
         log = logging.getLogger("astroplpython.function.signal")   
          
         log.debug("LSPeriodogram.calculate() called")
+        if (len(x_t_list) == 0):
+            raise EmptyListException("Can't calculate LSP with empty x(t) list") 
         
         log.debug("Prepare the data; convert x_t[] to python.numpy and scale");
         x = []
