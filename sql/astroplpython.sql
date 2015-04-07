@@ -56,10 +56,15 @@ AS $$
   import logging
   import sys
   logging.basicConfig(stream=sys.stderr)
-  logging.getLogger( "astroplpython.function.signal").setLevel(logging.DEBUG)
+  log = logging.getLogger( "astroplpython.function.signal")
+  log.setLevel(logging.DEBUG)
 
   # calculate based on passed parameters
-  pgram = LSPeriodogram.calculate(x_t.dbStrToArray(data), f_low, f_high, f_bins)
+  pgram = []
+  try:
+      pgram = LSPeriodogram.calculate(x_t.dbStrToArray(data), f_low, f_high, f_bins)
+  except EmptyListException as e:
+      log.warn ("calc_lsp was passed an empty list, ignoring");
 
   return pgram
 
