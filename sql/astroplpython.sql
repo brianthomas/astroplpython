@@ -66,8 +66,9 @@ AS $$
 $$ LANGUAGE plpython3u IMMUTABLE;
 
 
--- Find the frequency for maximum power in p_f[] list
-create or replace FUNCTION max_frequency (data p_f[])
+-- Find the maximum power in a list of p_f[]
+--
+create or replace FUNCTION max_power (data p_f[])
   RETURNS setof p_f
 AS $$
 
@@ -75,11 +76,11 @@ AS $$
   from astroplpython.function.statistic.Maximum import Maximum
 
   # calculate based on passed parameters
-  max_frequency = Maximum.calculate(p_f.dbStrToArray(data))
+  max = Maximum.calculate(p_f.dbStrToArray(data))
 
   # postgres requires return of an 'iterable object' 
   p_f_list = []
-  p_f_list.append(max_frequency)
+  p_f_list.append(max)
 
   return p_f_list
 
@@ -93,7 +94,7 @@ $$ LANGUAGE plpython3u IMMUTABLE;
 -- select calc_lsp(x_t_accum((mag,hjd)::x_t), 0.4, 0.6, 100) from test where objid = 1;
 
 -- max frequency calc
--- select max_frequency (p_f_accum(result.p_f)) from (select calc_lsp(x_t_accum((mag,hjd)::x_t), 0.4, 0.6, 100) as p_f from test where objid = 1) as result;
+-- select max_power (p_f_accum(result.p_f)) from (select calc_lsp(x_t_accum((mag,hjd)::x_t), 0.4, 0.6, 100) as p_f from test where objid = 1) as result;
 
 --
 --
