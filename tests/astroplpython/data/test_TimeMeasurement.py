@@ -40,6 +40,8 @@ class TestTimeseries (unittest.TestCase):
             self.assertEquals(x[i], x_t_list[i].value) #, "x value is correct")
             self.assertEquals(t[i], x_t_list[i].time, "t value is correct")
             i += 1
+            
+        self.assertEqual(str(x_t_list[0]), "x_t(x:1.0 t:1.0)", "String rep is correct")
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
