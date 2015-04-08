@@ -51,6 +51,7 @@ AS $$
 
   from astroplpython.data.TimeMeasurement import x_t
   from astroplpython.function.signal.LSPeriodogram import LSPeriodogram
+  from astroplpython.exception.ListException import EmptyListException
 
   # debugging?
   import logging
@@ -63,8 +64,12 @@ AS $$
   pgram = []
   try:
       pgram = LSPeriodogram.calculate(x_t.dbStrToArray(data), f_low, f_high, f_bins)
-  except EmptyListException as e:
+  except EmptyListException as el:
       log.warn ("calc_lsp was passed an empty list, ignoring");
+  except ZeroDivisionError as ze:
+      log.warn ("calc_lsp got division by zero, ignoring");
+  except ValueError as ve:
+      log.warn ("calc_lsp got ValueError, ignoring");
 
   return pgram
 
@@ -80,12 +85,20 @@ AS $$
   from astroplpython.data.PowerFrequencyMeasurement import p_f
   from astroplpython.function.statistic.Maximum import Maximum
 
-  # calculate based on passed parameters
-  max = Maximum.calculate(p_f.dbStrToArray(data))
+  import logging
+  import sys
+  logging.basicConfig(stream=sys.stderr)
+  log = logging.getLogger( "astroplpython.function.statistic")
 
-  # postgres requires return of an 'iterable object' 
   p_f_list = []
-  p_f_list.append(max)
+  # calculate based on passed parameters
+  try:
+     max = Maximum.calculate(p_f.dbStrToArray(data))
+     # postgres requires return of an 'iterable object' 
+     p_f_list.append(max)
+  except ValueError as ve:
+     log.warn ("max_power got ValueError, ignoring");
+     p_f_list.append(p_f("-1", "-1"))
 
   return p_f_list
 
