@@ -19,8 +19,3 @@ class Maximum (object):
             
         return measurement_list[np.argmax(x)]
         
-    def __init__(self, ndarray):
-        '''
-        Constructor
-        '''
-        
