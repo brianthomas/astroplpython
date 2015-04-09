@@ -1,31 +1,44 @@
-''' Lomb-Scargle Periodogram calculator.
+''' Lomb-Scargle Periodogram Module.
  
 Created on Jul 11, 2014
 
 @author: thomas
 '''
 
-import logging
 
 from astroplpython.data.PowerFrequencyMeasurement import p_f
 from astroplpython.exception.ListException import EmptyListException
+from pycuda import *
+
+import logging
 import numpy as np
 import scipy.signal as sp 
 
 
 class LSPeriodogram(object):
     
+    ''' 
+    Various Lomb-Scargle calculations 
+    '''
+    
+    @staticmethod
+    def __checkargs(x_t_list):
+        
+        if (len(x_t_list) == 0):
+            raise EmptyListException("Can't calculate LSP with empty x(t) list") 
+    
     @staticmethod
     def calculate (x_t_list, f_low = 0.01, f_high = 10.0, f_bins = 1000):
         ''' 
-        Lomb Scargle Periodogram implementation using scipy. 
+        Lomb-Scargle Periodogram implementation using scipy. 
+        
+        Expects a time-ordered (ascending) list of X(t) measurements.
         '''
 
         log = logging.getLogger("astroplpython.function.signal")   
-         
         log.debug("LSPeriodogram.calculate() called")
-        if (len(x_t_list) == 0):
-            raise EmptyListException("Can't calculate LSP with empty x(t) list") 
+        
+        LSPeriodogram.__checkargs (x_t_list)
         
         log.debug("Prepare the data; convert x_t[] to python.numpy and scale");
         x = []
@@ -56,4 +69,27 @@ class LSPeriodogram(object):
             p_f_list.append(p_f(pgram[i], freqs[i]))
             
         return p_f_list
+   
+    @staticmethod
+    def gpuCalculate (x_t_list, f_low = 0.01, f_high = 10.0, f_bins = 1000):
+        ''' 
+        Lomb-Scargle Periodogram implementation using culsp/pycuda. 
+        
+        Expects a time-ordered (ascending) list of X(t) measurements.
+        '''
+        
+        log = logging.getLogger("astroplpython.function.signal")   
+        log.debug("LSPeriodogram.gpuCalculate() called")
+        
+        LSPeriodogram.__checkargs (x_t_list)
+        log.debug("Prepare the data; convert x_t[] to python.numpy and scale");
+        # TODO
+        
+        log.debug("Do pgram calculation")
+        # TODO
+        
+        p_f_list = []
+        log.debug("convert result to form we may use in db, p_f[]"); 
+        # TODO
+        return p_f_list 
     
