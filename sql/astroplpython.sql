@@ -110,7 +110,7 @@ CREATE OR REPLACE FUNCTION x_t_array_time_sort (data x_t[])
 RETURNS x_t[] LANGUAGE SQL
 AS $$
   SELECT x_t_accum((d.value, d.time)::x_t) from 
-    (select (unnest(x_t_accum)).value as value, (unnest(x_t_accum)).time as time from bar order by time) as d;
+    (select (unnest($1)).value as value, (unnest($1)).time as time order by time) as d;
 $$;
 
 --
