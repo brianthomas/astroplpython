@@ -104,6 +104,15 @@ AS $$
 
 $$ LANGUAGE plpython3u IMMUTABLE;
 
+-- sort x_t by times (ascending)
+-- works with x_t_accum
+CREATE OR REPLACE FUNCTION x_t_array_time_sort (data x_t[])
+RETURNS x_t[] LANGUAGE SQL
+AS $$
+  SELECT x_t_accum((d.value, d.time)::x_t) from 
+    (select (unnest(x_t_accum)).value as value, (unnest(x_t_accum)).time as time from bar order by time) as d;
+$$;
+
 --
 -- EXAMPLE sql using these functions:
 --
