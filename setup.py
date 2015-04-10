@@ -56,6 +56,8 @@ setup (
     cmdclass = cmd_classes,
 
     install_requires=[
+        'numpy==1.9.1',
+        'pycuda==2014.1',
         'scipy==0.15.1',
     ],
 
