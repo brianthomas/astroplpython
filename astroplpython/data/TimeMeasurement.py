@@ -4,8 +4,8 @@ Created on Jul 11, 2014
 @author: thomas
 '''
 
+import collections
 from astroplpython.data.Measurement import x_y
-
 
 class x_t (x_y):
         
@@ -29,6 +29,19 @@ class x_t (x_y):
         ''' Constructor '''
         super().__init__(measurement, time)
     
+    @staticmethod
+    def asTupleNumpyArrays (x_t_list):
+        ''' Convert list of x_t[] into tuple of 2 numpy arrays for all x and t values'''
+        
+        xt = collections.namedtuple('xt', ['values', 'times'])
+        xt.values = []
+        xt.times = []
+        for val in x_t_list:
+            xt.values.append(val.value)
+            xt.times.append(val.time)
+            
+        return xt
+            
     @staticmethod
     def dbStrToArray (strarr):
         ''' Convert a (postgres) string representation of an array of values to x_t[] '''

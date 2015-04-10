@@ -8,6 +8,8 @@ Created on Jul 11, 2014
 @author: thomas
 '''
 
+import collections
+
 class x_y (object):
         
     '''
@@ -32,10 +34,23 @@ class x_y (object):
         self._y = float(y) 
     
     @staticmethod
+    def asTupleNumpyArrays (x_y_list):
+        ''' Convert list of x_y[] into tuple of numpy arrays '''
+        
+        xy = collections.namedtuple('xy', ['x_arr', 'y_arr'])
+        xy.x = []
+        xy.y = []
+        for x_y in x_y_list:
+            xy.x_arr.append(x_y.x)
+            xy.y_arr.append(x_y.y)
+            
+        return xy
+    
+    @staticmethod
     def dbStrToArray (strarr):
         ''' Convert a (postgres) string representation of an array of values to x_y[] '''
         return x_y._dbStrToArray(x_y, strarr)
-        
+    
     @staticmethod
     def _dbStrToArray (classToUse, strarr):
         ''' Conversion of a database string representation of 

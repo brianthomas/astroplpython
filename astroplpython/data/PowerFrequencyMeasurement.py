@@ -4,7 +4,7 @@ Created on Jul 11, 2014
 @author: thomas
 '''
 from astroplpython.data.Measurement import x_y
-
+import collections
 
 class p_f(x_y):
     ''' 
@@ -26,6 +26,19 @@ class p_f(x_y):
         ''' Constructor '''
         super().__init__(power, frequency)
         
+    @staticmethod
+    def asTupleNumpyArrays (p_f_list):
+        ''' Convert list of p_f[] into tuple of numpy arrays '''
+        
+        pf = collections.namedtuple('pf', ['powers', 'frequencies'])
+        pf.powers = []
+        pf.frequencies = []
+        for val in p_f_list:
+            pf.powers.append(val.power)
+            pf.frequencies.append(val.frequency)
+            
+        return pf
+    
     @staticmethod
     def dbStrToArray (strarr):
         ''' Convert a (postgres) string representation of an array of values to x_t[] '''
